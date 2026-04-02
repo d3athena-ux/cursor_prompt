@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>活动报名落地页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-soft: #020617;
+      --card-bg: #0b1220;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.12);
+      --accent-strong: #0ea5e9;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --border-subtle: rgba(148, 163, 184, 0.24);
+      --error: #f97373;
+      --success: #4ade80;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.85);
+      --radius-lg: 18px;
+      --radius-full: 999px;
+      --transition-fast: 180ms ease-out;
+      --transition-normal: 220ms ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+      "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1d283a 0, #020617 55%, #000 100%);
+      color: var(--text-main);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .page-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* 顶部导航 */
+    .navbar-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(to bottom,
+              rgba(15, 23, 42, 0.96),
+              rgba(15, 23, 42, 0.88),
+              transparent);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 12px;
+      background:
+              radial-gradient(circle at 20% 0%, #f97316 0, transparent 55%),
+              radial-gradient(circle at 80% 0%, #22c55e 0, transparent 55%),
+              radial-gradient(circle at 50% 100%, #38bdf8 0, transparent 55%);
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-mark::after {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: 11px;
+      border: 1px solid rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(4px);
+    }
+
+    .logo-text-main {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .logo-text-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 14px;
+    }
+
+    .nav-link {
+      position: relative;
+      color: var(--text-muted);
+      padding: 4px 0;
+      cursor: pointer;
+      transition: color var(--transition-fast);
+      border: none;
+      background: transparent;
+      font: inherit;
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+      transition: width var(--transition-normal);
+    }
+
+    .nav-link:hover {
+      color: var(--text-main);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      display: none;
+    }
+
+    @media (min-width: 720px) {
+      .nav-cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 7px 16px;
+        border-radius: var(--radius-full);
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        font-size: 13px;
+        gap: 6px;
+        color: var(--text-main);
+        cursor: pointer;
+        background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.4), transparent 55%);
+        transition: background var(--transition-fast), border-color var(--transition-fast),
+        transform var(--transition-fast), box-shadow var(--transition-fast);
+        border: none;
+        font: inherit;
+      }
+
+      .nav-cta span.icon {
+        font-size: 14px;
+      }
+
+      .nav-cta:hover {
+        background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.55), transparent 55%);
+        border-color: var(--accent);
+        transform: translateY(-1px);
+        box-shadow: 0 10px 35px rgba(15, 23, 42, 0.9);
+      }
+    }
+
+    /* 主内容 */
+    main {
+      flex: 1;
+    }
+
+    section {
+      scroll-margin-top: 88px;
+    }
+
+    /* Hero 区 */
+    .hero {
+      padding: 56px 0 48px;
+    }
+
+    @media (min-width: 720px) {
+      .hero {
+        padding: 80px 0 64px;
+      }
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr);
+      gap: 28px;
+      align-items: center;
+    }
+
+    @media (min-width: 900px) {
+      .hero-grid {
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+        gap: 36px;
+      }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 9px 4px 5px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.4), transparent 55%);
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .hero-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0%, var(--accent-strong), transparent 60%);
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.8);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-dot::after {
+      content: "";
+      position: absolute;
+      inset: 2px;
+      border-radius: inherit;
+      border: 1px solid rgba(15, 23, 42, 0.75);
+      background: radial-gradient(circle at 70% 110%, rgba(250, 250, 250, 0.25), transparent 55%);
+    }
+
+    .hero-badge span.highlight {
+      color: var(--accent-strong);
+      font-weight: 500;
+    }
+
+    .hero-title {
+      font-size: clamp(30px, 4vw, 40px);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin-bottom: 12px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(120deg, #38bdf8, #a855f7, #f97316);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      max-width: 520px;
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    @media (min-width: 720px) {
+      .hero-subtitle {
+        font-size: 15px;
+      }
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 22px;
+      border-radius: var(--radius-full);
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: #0b1220;
+      background: radial-gradient(circle at 0 0, #f97316 0, transparent 55%),
+      radial-gradient(circle at 100% 0, #38bdf8 0, transparent 55%),
+      linear-gradient(120deg, #22c55e, #22c55e);
+      box-shadow: 0 18px 45px rgba(34, 197, 94, 0.6);
+      transition: transform var(--transition-normal), box-shadow var(--transition-normal),
+      filter var(--transition-fast);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 26px 60px rgba(34, 197, 94, 0.7);
+      filter: saturate(1.1);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.95);
+    }
+
+    .btn-primary span.icon {
+      font-size: 16px;
+    }
+
+    .btn-ghost {
+      border-radius: var(--radius-full);
+      padding: 10px 18px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: linear-gradient(120deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.7));
+      color: var(--text-muted);
+      font-size: 13px;
+      cursor: default;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .hero-meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .meta-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.9);
+    }
+
+    /* Hero 右侧卡片 */
+    .hero-panel {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      background:
+              radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.3), transparent 55%),
+              radial-gradient(circle at 100% 0, rgba(168, 85, 247, 0.3), transparent 55%),
+              radial-gradient(circle at 50% 120%, rgba(248, 250, 252, 0.08), transparent 60%),
+              linear-gradient(145deg, #020617, #020617 35%, #020617);
+      box-shadow: var(--shadow-soft);
+      padding: 18px 18px 16px;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(18px);
+    }
+
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle at 20% 0%, rgba(148, 163, 184, 0.4), transparent 55%);
+      opacity: 0.45;
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+    }
+
+    .hero-panel-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .hero-panel-title {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .hero-panel-title strong {
+      color: var(--text-main);
+    }
+
+    .hero-panel-badges {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+    }
+
+    .hero-chip {
+      padding: 3px 9px;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.7);
+      color: var(--text-muted);
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .metric-card {
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.9);
+      padding: 10px 10px 9px;
+    }
+
+    .metric-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .metric-value {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .metric-tag {
+      font-size: 10px;
+      color: var(--accent);
+      margin-top: 3px;
+    }
+
+    .hero-panel-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.4), transparent 55%);
+      padding: 10px 11px;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .hero-panel-footer strong {
+      color: var(--text-main);
+    }
+
+    /* 通用标题 */
+    .section-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      gap: 12px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .section-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* 亮点区 */
+    .section {
+      padding: 10px 0 24px;
+    }
+
+    .highlights-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    @media (min-width: 720px) {
+      .section {
+        padding: 16px 0 32px;
+      }
+      .highlights-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .card {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.16), transparent 52%),
+      radial-gradient(circle at 100% 0, rgba(15, 23, 42, 0.88), #020617);
+      padding: 14px 14px 16px;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.9);
+      transition: transform var(--transition-normal), box-shadow var(--transition-normal),
+      border-color var(--transition-normal), background var(--transition-normal);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0 0, rgba(148, 163, 184, 0.3), transparent 55%);
+      opacity: 0;
+      transition: opacity var(--transition-normal);
+      pointer-events: none;
+    }
+
+    .card:hover {
+      transform: translateY(-4px) translateZ(0);
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 1);
+      border-color: rgba(56, 189, 248, 0.85);
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.2), transparent 55%),
+      radial-gradient(circle at 100% 0, rgba(15, 23, 42, 0.95), #020617);
+    }
+
+    .card:hover::after {
+      opacity: 0.7;
+    }
+
+    .card-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.9), rgba(129, 140, 248, 0.9));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      margin-bottom: 6px;
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.9);
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* 流程区 */
+    .steps {
+      display: grid;
+      gap: 14px;
+    }
+
+    @media (min-width: 720px) {
+      .steps {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .step {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.85));
+      padding: 13px 14px 14px;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.9);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .step::before {
+      content: attr(data-step);
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      font-size: 22px;
+      font-weight: 700;
+      color: rgba(55, 65, 81, 0.6);
+    }
+
+    .step-label {
+      font-size: 12px;
+      color: var(--accent);
+      margin-bottom: 3px;
+    }
+
+    .step-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .step-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* 报名区 */
+    .cta-section {
+      padding: 18px 0 40px;
+    }
+
+    .cta-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr);
+      gap: 22px;
+      align-items: flex-start;
+    }
+
+    @media (min-width: 900px) {
+      .cta-layout {
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      }
+    }
+
+    .cta-copy {
+      font-size: 13px;
+      color: var(--text-muted);
+      max-width: 480px;
+    }
+
+    .cta-points {
+      list-style: none;
+      margin-top: 10px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .cta-points li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .cta-check {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(34, 197, 94, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--success);
+      background: rgba(22, 101, 52, 0.25);
+    }
+
+    .form-card {
+      border-radius: 20px;
+      border: 1px solid var(--border-subtle);
+      background:
+              radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.25), transparent 55%),
+              radial-gradient(circle at 100% 0, rgba(168, 85, 247, 0.3), transparent 50%),
+              linear-gradient(145deg, #020617, #020617);
+      box-shadow: var(--shadow-soft);
+      padding: 18px 18px 16px;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+    }
+
+    .form-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle at 15% 0, rgba(148, 163, 184, 0.45), transparent 55%);
+      opacity: 0.55;
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+    }
+
+    .form-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .form-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .form-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .form-caption {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .form-status {
+      font-size: 11px;
+      color: var(--accent);
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .form-row {
+      display: grid;
+      gap: 10px;
+    }
+
+    @media (min-width: 720px) {
+      .form-row.two-cols {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      font-size: 13px;
+    }
+
+    .field-label {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .field-label span.required {
+      color: var(--accent);
+      font-size: 13px;
+    }
+
+    .field-input {
+      position: relative;
+    }
+
+    .field-input input {
+      width: 100%;
+      padding: 9px 9px;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.92);
+      color: var(--text-main);
+      font-size: 13px;
+      outline: none;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast),
+      background var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .field-input input::placeholder {
+      color: rgba(148, 163, 184, 0.7);
+    }
+
+    .field-input input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
+      background: rgba(15, 23, 42, 0.98);
+      transform: translateY(-1px);
+    }
+
+    .field-error {
+      font-size: 11px;
+      color: var(--error);
+      min-height: 14px;
+    }
+
+    .form-footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .submit-btn {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      border-radius: var(--radius-full);
+      padding: 9px 18px;
+      background: radial-gradient(circle at 0 0, #f97316, transparent 55%),
+      radial-gradient(circle at 100% 0, #38bdf8, transparent 55%),
+      linear-gradient(120deg, #22c55e, #22c55e);
+      color: #020617;
+      font-size: 13px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 12px 35px rgba(34, 197, 94, 0.7);
+      transition: transform var(--transition-normal), box-shadow var(--transition-normal),
+      filter var(--transition-fast), opacity var(--transition-fast);
+    }
+
+    .submit-btn.disabled {
+      opacity: 0.6;
+      cursor: default;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .submit-btn:hover:not(.disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 40px rgba(34, 197, 94, 0.8);
+    }
+
+    .submit-btn:active:not(.disabled) {
+      transform: translateY(0);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.96);
+    }
+
+    .submit-hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      max-width: 200px;
+    }
+
+    .form-message {
+      margin-top: 8px;
+      font-size: 12px;
+      min-height: 18px;
+    }
+
+    .form-message.error {
+      color: var(--error);
+    }
+
+    .form-message.success {
+      color: var(--success);
+    }
+
+    /* 页脚 */
+    footer {
+      border-top: 1px solid rgba(15, 23, 42, 0.9);
+      margin-top: auto;
+      background: linear-gradient(to bottom, rgba(15, 23, 42, 0.9), #020617);
+    }
+
+    .footer-inner {
+      padding: 14px 20px 18px;
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 12px;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 11px;
+    }
+
+    /* 小屏适配 */
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 24px;
+      }
+      .hero-panel {
+        padding: 14px 14px 12px;
+      }
+      .card {
+        padding: 12px 12px 13px;
+      }
+      .step {
+        padding: 11px 12px 12px;
+      }
+      .form-card {
+        padding: 16px 14px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page-shell">
+  <!-- 顶部导航 -->
+  <header class="navbar-wrap">
+    <div class="container">
+      <nav class="navbar">
+        <div class="nav-left">
+          <div class="logo-mark" aria-hidden="true"></div>
+          <div>
+            <div class="logo-text-main">Nova Event</div>
+            <div class="logo-text-sub">EXPERIENCE STUDIO</div>
+          </div>
+        </div>
+        <div class="nav-right">
+          <div class="nav-links">
+            <button class="nav-link js-scroll" data-target="#highlights" type="button">亮点</button>
+            <button class="nav-link js-scroll" data-target="#flow" type="button">流程</button>
+            <button class="nav-link js-scroll" data-target="#apply" type="button">报名</button>
+            <button class="nav-cta js-scroll" data-target="#apply" type="button">
+              <span class="icon">●</span>
+              <span>立即报名</span>
+            </button>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 主内容 -->
+  <main>
+    <!-- Hero 区 -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <div class="hero-badge">
+              <div class="hero-dot"></div>
+              <span>限量 · 线下高端活动</span>
+              <span class="highlight">席位先到先得</span>
+            </div>
+            <h1 id="hero-title" class="hero-title">
+              打造你的下一次<span>高能升级</span>体验
+            </h1>
+            <p class="hero-subtitle">
+              一场面向进阶职场人的私享活动：高密度干货分享、沉浸式互动体验、与同频伙伴深度交流。
+              用一个下午，重启你的 2026 规划。
+            </p>
+            <div class="hero-actions">
+              <button class="btn-primary js-scroll" data-target="#apply" type="button">
+                <span>立即报名</span>
+                <span class="icon">↗</span>
+              </button>
+              <div class="btn-ghost">
+                名额上限 60 人 · 审核制报名
+              </div>
+            </div>
+            <div class="hero-meta">
+              <div class="hero-meta-item">
+                <span class="meta-dot"></span>
+                <span>适合：希望突破当下、寻找下一阶段路径的职场人</span>
+              </div>
+              <div class="hero-meta-item">
+                <span class="meta-dot"></span>
+                <span>形式：线下 Workshop + 高端社交</span>
+              </div>
+            </div>
+          </div>
+
+          <aside class="hero-panel" aria-label="活动摘要">
+            <div class="hero-panel-inner">
+              <div class="hero-panel-header">
+                <div class="hero-panel-title">
+                  活动概览 · <strong>Nova Leap 2026</strong>
+                </div>
+                <div class="hero-panel-badges">
+                  <span class="hero-chip">线下 · 上海</span>
+                  <span class="hero-chip">半天沉浸式</span>
+                </div>
+              </div>
+              <div class="hero-metrics">
+                <div class="metric-card">
+                  <div class="metric-label">活动时间</div>
+                  <div class="metric-value">04.20</div>
+                  <div class="metric-tag">周六 · 14:00 – 18:00</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-label">剩余席位</div>
+                  <div class="metric-value" id="seats-left">18</div>
+                  <div class="metric-tag">实时更新 · 报满即止</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-label">往期满意度</div>
+                  <div class="metric-value">96%</div>
+                  <div class="metric-tag">参与者匿名评估</div>
+                </div>
+              </div>
+              <div class="hero-panel-footer">
+                <span>完成报名仅需 <strong>30 秒</strong> · 审核通过后将短信+邮件通知</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- 亮点区 -->
+    <section id="highlights" class="section" aria-labelledby="highlights-title">
+      <div class="container">
+        <div class="section-heading">
+          <div class="section-title" id="highlights-title">活动亮点 Highlights</div>
+          <div class="section-subtitle">
+            精心设计的体验，让每一分钟都值得
+          </div>
+        </div>
+        <div class="highlights-grid">
+          <article class="card">
+            <div class="card-icon">🎯</div>
+            <h3 class="card-title">高密度实战分享</h3>
+            <p class="card-desc">
+              从真实项目与决策场景中抽离方法论，不讲空洞概念，只给可落地的框架与工具，帮助你在关键节点做出更清晰的判断。
+            </p>
+          </article>
+          <article class="card">
+            <div class="card-icon">🤝</div>
+            <h3 class="card-title">同频人脉闭门局</h3>
+            <p class="card-desc">
+              控制参与人数与画像，保证每一组圆桌都能产生高质量交流。我们会根据你的背景进行智能配对，避免「尴尬社交」。
+            </p>
+          </article>
+          <article class="card">
+            <div class="card-icon">🧭</div>
+            <h3 class="card-title">系统化路径规划</h3>
+            <p class="card-desc">
+              通过结构化引导与工具卡片，在现场就能梳理你的 6–12 个月升级计划，并拆解为可执行的下一步行动。
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 流程区 -->
+    <section id="flow" class="section" aria-labelledby="flow-title">
+      <div class="container">
+        <div class="section-heading">
+          <div class="section-title" id="flow-title">活动流程 Flow</div>
+          <div class="section-subtitle">
+            清晰节奏，兼顾输入、思考与交互
+          </div>
+        </div>
+        <div class="steps">
+          <article class="step" data-step="01">
+            <div class="step-label">14:00 – 15:00</div>
+            <h3 class="step-title">进阶 Keynote · 打开新视角</h3>
+            <p class="step-desc">
+              从宏观趋势到微观实践，帮助你重新定位自身优势与机会空间，为后续工作坊搭建认知底座。
+            </p>
+          </article>
+          <article class="step" data-step="02">
+            <div class="step-label">15:10 – 16:30</div>
+            <h3 class="step-title">小组 Workshop · 拆解个人议题</h3>
+            <p class="step-desc">
+              通过结构化工作表与主持人引导，将模糊的困惑转化为清晰的问题，并给出可执行的方向与备选路径。
+            </p>
+          </article>
+          <article class="step" data-step="03">
+            <div class="step-label">16:40 – 18:00</div>
+            <h3 class="step-title">圆桌交流 · 建立长期链接</h3>
+            <p class="step-desc">
+              不仅交换名片，而是围绕真实议题展开深度对话。活动后我们会协助维护「小圈子」持续互助。
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 报名区 -->
+    <section id="apply" class="cta-section" aria-labelledby="apply-title">
+      <div class="container">
+        <div class="section-heading">
+          <div class="section-title" id="apply-title">立即报名 Join Us</div>
+          <div class="section-subtitle">
+            填写信息提交后，我们将在 1–2 个工作日内完成审核
+          </div>
+        </div>
+
+        <div class="cta-layout">
+          <div class="cta-copy">
+            <p>
+              为了保证现场体验与交流质量，本次活动采用小规模、审核制报名。
+              我们更欢迎真正有议题、有好奇心、愿意投入时间思考的你。
+            </p>
+            <ul class="cta-points" aria-label="报名说明">
+              <li>
+                <span class="cta-check">✓</span>
+                <span>报名通过后，将通过短信 + 邮件同步详细地址与行前指引</span>
+              </li>
+              <li>
+                <span class="cta-check">✓</span>
+                <span>如遇无法参加，可提前 72 小时申请名额转让或顺延</span>
+              </li>
+              <li>
+                <span class="cta-check">✓</span>
+                <span>你的信息仅用于本次活动沟通，不会对外公开</span>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="form-card" role="form" aria-label="活动报名表单">
+              <div class="form-inner">
+                <div class="form-header">
+                  <div>
+                    <div class="form-title">活动报名信息</div>
+                    <div class="form-caption">预计填写时间约 30 秒</div>
+                  </div>
+                  <div class="form-status" id="form-status">
+                    报名开放中
+                  </div>
+                </div>
+
+                <form id="apply-form" novalidate>
+                  <div class="form-grid">
+                    <div class="form-row">
+                      <div class="field">
+                        <label class="field-label" for="name">
+                          <span>姓名</span>
+                          <span class="required">*</span>
+                        </label>
+                        <div class="field-input">
+                          <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            autocomplete="name"
+                            placeholder="请填写你的真实姓名"
+                            required
+                          />
+                        </div>
+                        <div class="field-error" id="error-name"></div>
+                      </div>
+                    </div>
+
+                    <div class="form-row two-cols">
+                      <div class="field">
+                        <label class="field-label" for="phone">
+                          <span>手机号码</span>
+                          <span class="required">*</span>
+                        </label>
+                        <div class="field-input">
+                          <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            autocomplete="tel"
+                            placeholder="用于接收活动短信通知"
+                            required
+                          />
+                        </div>
+                        <div class="field-error" id="error-phone"></div>
+                      </div>
+
+                      <div class="field">
+                        <label class="field-label" for="email">
+                          <span>邮箱</span>
+                          <span class="required">*</span>
+                        </label>
+                        <div class="field-input">
+                          <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            autocomplete="email"
+                            placeholder="用于接收活动确认邮件"
+                            required
+                          />
+                        </div>
+                        <div class="field-error" id="error-email"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-footer">
+                    <button type="submit" class="submit-btn" id="submit-btn">
+                      <span>提交报名</span>
+                      <span>→</span>
+                    </button>
+                    <p class="submit-hint">
+                      提交后请保持手机畅通，工作人员可能会与你进行简单沟通确认。
+                    </p>
+                  </div>
+
+                  <div class="form-message" id="form-message" aria-live="polite"></div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div>© 2026 Nova Event Studio. 保留所有权利。</div>
+        <div class="footer-links">
+          <a href="javascript:void(0)">隐私说明</a>
+          <a href="javascript:void(0)">活动条款</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+  (function () {
+    function smoothScrollTo(targetSelector) {
+      var target = document.querySelector(targetSelector);
+      if (!target) return;
+      var targetTop = target.getBoundingClientRect().top + window.pageYOffset - 80;
+      window.scrollTo({ top: targetTop, behavior: "smooth" });
+    }
+
+    var scrollTriggers = document.querySelectorAll(".js-scroll");
+    scrollTriggers.forEach(function (el) {
+      el.addEventListener("click", function () {
+        var target = el.getAttribute("data-target");
+        if (target) smoothScrollTo(target);
+      });
+    });
+
+    var form = document.getElementById("apply-form");
+    var nameInput = document.getElementById("name");
+    var phoneInput = document.getElementById("phone");
+    var emailInput = document.getElementById("email");
+    var errorName = document.getElementById("error-name");
+    var errorPhone = document.getElementById("error-phone");
+    var errorEmail = document.getElementById("error-email");
+    var formMessage = document.getElementById("form-message");
+    var submitBtn = document.getElementById("submit-btn");
+    var seatsLeftEl = document.getElementById("seats-left");
+    var formStatus = document.getElementById("form-status");
+
+    function resetErrors() {
+      errorName.textContent = "";
+      errorPhone.textContent = "";
+      errorEmail.textContent = "";
+      formMessage.textContent = "";
+      formMessage.classList.remove("error", "success");
+    }
+
+    function validateName(value) {
+      var v = (value || "").trim();
+      if (!v) return "请输入姓名";
+      if (v.length < 2) return "姓名至少为 2 个字符";
+      return "";
+    }
+
+    function validatePhone(value) {
+      var trimmed = (value || "").trim();
+      if (!trimmed) return "请输入手机号码";
+      var cnPhonePattern = /^1[3-9]\d{9}$/;
+      if (!cnPhonePattern.test(trimmed)) {
+        return "请输入有效的手机号码（11 位中国大陆手机号）";
+      }
+      return "";
+    }
+
+    function validateEmail(value) {
+      var trimmed = (value || "").trim();
+      if (!trimmed) return "请输入邮箱地址";
+      var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(trimmed)) return "请输入有效的邮箱地址";
+      return "";
+    }
+
+    function setButtonLoading(loading) {
+      if (loading) {
+        submitBtn.classList.add("disabled");
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = "<span>提交中...</span>";
+      } else {
+        submitBtn.classList.remove("disabled");
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = "<span>提交报名</span><span>→</span>";
+      }
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      resetErrors();
+
+      var nameValue = nameInput.value;
+      var phoneValue = phoneInput.value;
+      var emailValue = emailInput.value;
+
+      var nameError = validateName(nameValue);
+      var phoneError = validatePhone(phoneValue);
+      var emailError = validateEmail(emailValue);
+
+      var hasError = false;
+      if (nameError) { errorName.textContent = nameError; hasError = true; }
+      if (phoneError) { errorPhone.textContent = phoneError; hasError = true; }
+      if (emailError) { errorEmail.textContent = emailError; hasError = true; }
+
+      if (hasError) {
+        formMessage.textContent = "请检查上方标红信息后再提交。";
+        formMessage.classList.add("error");
+        return;
+      }
+
+      setButtonLoading(true);
+
+      setTimeout(function () {
+        setButtonLoading(false);
+        formMessage.textContent = "报名成功，我们会在 1–2 个工作日内与您取得联系。";
+        formMessage.classList.add("success");
+
+        var currentSeats = parseInt(seatsLeftEl.textContent, 10);
+        if (!Number.isNaN(currentSeats) && currentSeats > 0) {
+          seatsLeftEl.textContent = String(currentSeats - 1);
+          if (currentSeats - 1 <= 0) formStatus.textContent = "当前批次已满，转为候补";
+        }
+      }, 800);
+    });
+
+    nameInput.addEventListener("blur", function () {
+      errorName.textContent = validateName(nameInput.value);
+    });
+    phoneInput.addEventListener("blur", function () {
+      errorPhone.textContent = validatePhone(phoneInput.value);
+    });
+    emailInput.addEventListener("blur", function () {
+      errorEmail.textContent = validateEmail(emailInput.value);
+    });
+  })();
+</script>
+</body>
+</html>
