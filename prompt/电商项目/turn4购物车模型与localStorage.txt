@@ -1,0 +1,53 @@
+你是资深前端工程师。请在我现有电商首页（products 渲染、搜索/分类/排序 state、事件委托）基础上，实现“购物车功能 + localStorage 持久化”。要求最小改动、结构清晰。
+
+【购物车数据模型（强制）】
+
+新增 cart 数组（对象数组）存储：[{ id, title, price, qty }]
+
+提供函数（必须按此命名或等价清晰命名）：
+
+loadCart()
+saveCart()
+addToCart(productId)
+decreaseQty(productId)
+removeFromCart(productId)
+clearCart()
+getCartCount()   // 总件数
+getCartTotal()   // 总金额
+
+
+【UI 要求】
+
+页面右上角购物车徽标显示总件数
+
+新增购物车面板：
+
+商品行：标题、单价、数量、+/- 按钮、删除按钮
+
+总金额
+
+按钮：清空购物车、去结算（本节可滚动到 #checkout 或弹提示）
+
+【持久化要求】
+
+页面加载时 loadCart() 并渲染购物车 UI 与徽标
+
+任意购物车变更都 saveCart()
+
+localStorage 异常要容错（不白屏）
+
+【输出要求】
+
+只输出需要新增/替换的 HTML 片段 + CSS 片段 + JS 片段（标明插入位置）
+
+给验收清单（至少 22 条，必须包含“刷新后仍存在”的用例）
+
+我发现购物车有问题：
+（描述：qty 会变成 0 以下 / 总金额不更新 / 徽标不更新）
+
+这是相关代码：（粘贴 addToCart 与渲染购物车部分）
+
+请你：
+1）用一句话指出根因
+2）给最小修复补丁（只改必要行）
+3）补充 2 条防御性校验（例如 qty 最小为 1，price 为数字）

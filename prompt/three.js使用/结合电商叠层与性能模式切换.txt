@@ -1,0 +1,26 @@
+你是资深前端工程师。请帮我完成工程化集成：将 Three.js 粒子背景作为背景，置于 Bootstrap 电商首页的下方。
+
+【结构要求】
+1）层级：Canvas 必须 fixed 铺满全屏，z-index 在最底层（例如 0），UI 容器在上层（例如 1 或更高）
+2）透明度：Bootstrap 容器背景设置为半透明或半透明卡片透明，确保能看到背景粒子（可选：卡片使用 backdrop-filter: blur）
+3）点击：解决 Canvas 遮挡 UI 点击的问题（如果 Canvas 在上层，请使用 pointer-events: none；或确保层级正确）
+
+【性能控制】
+
+在 Navbar 增加一个 Switch：
+
+性能模式：pixelRatio = Math.min(devicePixelRatio, 2)，动画正常
+
+省电模式：pixelRatio = 1，并停止粒子更新（或显著减弱更新频率），保持静态背景
+
+【背景融合】
+
+Three.js renderer 设置 clearColor 与页面主题协调（深色科技风推荐深蓝黑）
+
+【输出要求】
+
+给出完整 CSS（叠层、透明、层级）
+
+给出性能切换 JS 逻辑（最小改动，说明插入位置）
+
+给出验收清单（至少 18 条，包含性能模式验收）

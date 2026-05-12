@@ -1,0 +1,28 @@
+你是资深前端工程师。请帮我把现有的 Bootstrap 电商项目拆分为 3 个独立的 HTML 页面，并确保导航栏在所有页面上表现一致且正确。
+
+【页面列表】
+1）index.html：首页（含 Hero 和推荐商品）
+2）products.html：完整商品列表页（含搜索、分类、排序功能）
+3）contact.html：联系我们（含地址地图占位、在线留言表单）
+
+【技术要求】
+
+必须保持 Bootstrap 5 样式一致性
+
+Navbar：必须包含“当前页面高亮”逻辑（通过 JS 检测 location.pathname，或通过 data-page 标识）
+
+状态同步：所有页面的购物车徽标（Badge）必须显示正确总件数（从 localStorage 读取并初始化）
+
+路径处理：所有 a 标签链接正确跳转
+
+【输出要求】
+
+给出 3 个页面的核心 HTML 结构（重点是 Navbar + 主体容器 + Footer）
+
+给出一段可复用的 JS 初始化代码：
+
+initNavActive()
+
+initCartBadgeFromStorage()
+
+给出验收清单（至少 15 条）

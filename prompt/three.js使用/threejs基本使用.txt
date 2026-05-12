@@ -1,0 +1,24 @@
+你是资深前端工程师。请用 Three.js 生成一个“可直接运行”的 3D 示例页面（一个 HTML 文件即可）。
+
+【允许】
+
+使用外网 CDN 导入 three（unpkg / jsdelivr 均可）
+
+不使用打包工具
+
+【必须包含（强制）】
+1）Scene、PerspectiveCamera、WebGLRenderer
+2）物体：TorusKnotGeometry（或同等级别几何体），材质用 MeshStandardMaterial
+3）光源：AmbientLight + DirectionalLight
+4）动画：物体持续旋转（x/y 两个轴）
+5）自适应：监听 window resize，更新 camera.aspect、camera.updateProjectionMatrix、renderer.setSize
+6）性能：renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+7）代码结构：必须拆成 initScene / initMesh / initLights / animate / onResize
+
+【输出要求】
+
+给出完整 HTML 代码
+
+说明如何运行
+
+给出验收清单（至少 12 条）

@@ -1,0 +1,21 @@
+请在我的 Three.js 页面基础上升级交互与质感，要求仍然是单 HTML 可运行。
+
+【必须实现】
+
+加入 OrbitControls（允许拖拽旋转、滚轮缩放）
+
+限制：设置合理的 minDistance / maxDistance
+
+增加“辅助线开关”按钮：显示/隐藏 GridHelper（或 AxesHelper）
+
+调整灯光与材质，让物体更有真实质感：
+
+使用 MeshStandardMaterial，合理设置 metalness / roughness
+
+DirectionalLight 设置位置与强度，避免过暗/过曝
+
+【输出要求】
+
+给出需要新增/替换的 JS 代码片段（最小改动）
+
+给出验收清单（至少 15 条，包含控制器交互）
